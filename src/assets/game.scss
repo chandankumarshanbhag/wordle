@@ -1,0 +1,42 @@
+
+.game-container{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    background-color: #fafafa;
+}
+
+.game-container .game-table .game-cell{
+    width: 60px;
+    height: 60px;
+    border: 4px solid #eee;
+    background-color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #212121;
+}
+
+.game-container{
+    position: relative;
+    user-select: none;
+    .game-actions{
+        position: absolute;
+        top: 24px;
+        right: 24px;
+    }
+
+    .green {
+        background-color: #3fc380 !important;
+    }
+    .yellow {
+        background-color: #fff000 !important;
+        color: #212121 !important;
+    }
+    .grey {
+        background-color: #b7c1ac !important;
+    }
+}

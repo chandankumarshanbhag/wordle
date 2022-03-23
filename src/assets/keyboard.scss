@@ -1,0 +1,73 @@
+.keyboard-container {
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+}
+.keyboard {
+    width: 600px;
+}
+@media (min-width: 320px) {
+    /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */
+    .keyboard {
+        width: 100%;
+    }
+}
+@media (min-width: 480px) {
+    /* smartphones, Android phones, landscape iPhone */
+    .keyboard {
+        width: 100%;
+    }
+}
+@media (min-width: 600px) {
+    /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */
+    .keyboard {
+        width: 600px;
+    }
+}
+
+.keyboard .key-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    flex: 1;
+}
+
+.keyboard .key-group .key {
+    flex: 1;
+    font-size: 0.75rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    line-height: 0.75rem;
+}
+
+.keyboard {
+    .key-group {
+        .green {
+            background-color: #3fc380;
+        }
+        .yellow {
+            background-color: #fff000;
+            color: #212121;
+        }
+        .disabled {
+            background-color: #b7c1ac;
+            color: #fefefe;
+            font-weight: 400;
+        }
+        .special-key{
+            
+        }
+    }
+}
+
+@media (min-width: 480px) {
+    /* smartphones, Android phones, landscape iPhone */
+    .keyboard .key-group .key {
+        font-size: 1rem;
+    }
+}
