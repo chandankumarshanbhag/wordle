@@ -11,6 +11,7 @@
   "license": "MIT",
   "devDependencies": {
     "node-sass": "^7.0.1",
+    "sass": "^1.49.9",
     "vite": "^2.8.6",
     "vite-plugin-solid": "^2.2.6"
   },
