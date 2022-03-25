@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import '../assets/keyboard.scss'
+import "../assets/keyboard.scss";
+import BackspaceSvg from "../assets/images/backspace.svg";
 
 let keysGroup = [
   [
@@ -34,11 +35,11 @@ let keysGroup = [
     { key: "B", type: "KEY" },
     { key: "N", type: "KEY" },
     { key: "M", type: "KEY" },
-    { key: "Backspace", type: "SPECIALKEY" },
+    { key: "Backspace", type: "SPECIALKEY", icon: BackspaceSvg },
   ],
 ];
 
-export default function Keyboard() {
+export default function Keyboard({keydown}) {
   return (
     <div className="keyboard-container p-2">
       <div className="keyboard">
@@ -54,13 +55,15 @@ export default function Keyboard() {
                 return (
                   <button
                     className={clsx({
-                      ["m-1 button  is-dark is-small key"]: true,
+                      ["button  is-dark is-small key"]: true,
                       ["green"]: Boolean(index % 2),
                       ["disabled"]: index % 3,
                       ["yellow"]: index % 4,
+                      ["special-key"]: key.type === "SPECIALKEY",
                     })}
+                    onClick={() => keydown(key)}
                   >
-                    {key.key}
+                    {key.icon ? <img src={key.icon} className="icon" />: key.key}
                   </button>
                 );
               })}
