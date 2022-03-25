@@ -44,6 +44,7 @@ export default function Keyboard(props) {
   //   // word.split("")
   //   return acc;
   // },{})
+  
   return (
     <div className="keyboard-container p-2">
       <div className="keyboard">
