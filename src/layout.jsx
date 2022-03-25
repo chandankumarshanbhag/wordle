@@ -1,6 +1,6 @@
 import Keyboard from "./components/keyboard";
 
-export default function Layout({ children,keydown }) {
+export default function Layout(props) {
   return (
     <div className="main-layout">
       <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -39,8 +39,8 @@ export default function Layout({ children,keydown }) {
         </div>
       </nav>
 
-      {children}
-      <Keyboard keydown={keydown} />
+      {props.children}
+      <Keyboard game={props.game} keydown={props.keydown} />
     </div>
   );
 }
