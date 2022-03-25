@@ -35,11 +35,15 @@ let keysGroup = [
     { key: "B", type: "KEY" },
     { key: "N", type: "KEY" },
     { key: "M", type: "KEY" },
-    { key: "Backspace", type: "SPECIALKEY", icon: BackspaceSvg },
+    { key: "BACKSPACE", type: "SPECIALKEY", icon: BackspaceSvg },
   ],
 ];
 
-export default function Keyboard({keydown}) {
+export default function Keyboard(props) {
+  let keysTyped = props.boardState.reduce((acc,word) => {
+    // word.split("")
+    return acc;
+  },{})
   return (
     <div className="keyboard-container p-2">
       <div className="keyboard">
@@ -61,7 +65,7 @@ export default function Keyboard({keydown}) {
                       ["yellow"]: index % 4,
                       ["special-key"]: key.type === "SPECIALKEY",
                     })}
-                    onClick={() => keydown(key)}
+                    onClick={() => props.keydown(key)}
                   >
                     {key.icon ? <img src={key.icon} className="icon" />: key.key}
                   </button>
