@@ -47,10 +47,18 @@
     height: 3rem;
     width: 2rem;
     margin: 0.2rem;
+    background-color: #b7c1ac;
+    color: #fefefe;
+    font-weight: 400;
 }
 .keyboard .key-group .special-key{
     min-width: 2rem;
 }
+
+.keyboard .key-group .key:focus{
+    transform: scale(0.9);
+}
+
 .keyboard .key-group .icon{
     width: 2rem;
 }
@@ -65,9 +73,8 @@
             color: #212121;
         }
         .disabled {
-            background-color: #b7c1ac;
-            color: #fefefe;
-            font-weight: 400;
+            background-color: #212121;
+            color: #444;
         }
         .special-key{
             

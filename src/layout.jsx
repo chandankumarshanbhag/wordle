@@ -38,7 +38,6 @@ export default function Layout(props) {
           </div>
         </div>
       </nav>
-
       {props.children}
       <Keyboard game={props.game} keydown={props.keydown} />
     </div>

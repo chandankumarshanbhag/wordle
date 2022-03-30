@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
 import Game from "./components/game";
+import Toast from "./components/toast";
 import Layout from "./layout";
 import dictonary from "./words.json";
 
@@ -12,12 +13,14 @@ function App() {
       currentRow: 0,
       totalRows,
       wordLength,
-      boardState: Array(wordLength).fill(""),
+      boardState: Array(totalRows).fill(""),
       evaluations: Array(wordLength).fill([]),
-      solution: "GAMER",
+      solution:
+        dictonary[Math.floor(Math.random() * dictonary.length)].toUpperCase(),
     },
     { equals: false }
   );
+  const [toast, setToast] = createSignal(null);
 
   function isAValidWord(word) {
     return dictonary.includes(word.toLowerCase());
@@ -25,6 +28,8 @@ function App() {
 
   function keydown(key) {
     setGame((game) => {
+      console.log(game)
+      
       switch (key.type) {
         case "SPECIALKEY":
           if (key.key === "BACKSPACE") {
@@ -41,13 +46,28 @@ function App() {
               ]
                 .split("")
                 .map((letter, index) => {
-                  return game.solution.includes(letter) ? (
-                    game.solution[index] === letter ? "CORRECT":"PRESENT"
-                  ) : "ABSENT";
+                  return game.solution.includes(letter)
+                    ? game.solution[index] === letter
+                      ? "CORRECT"
+                      : "PRESENT"
+                    : "ABSENT";
                 });
-              game.currentRow++;
+
+              if (game.solution == game.boardState[game.currentRow]) {
+                showToast("Correct!");
+                game.currentRow == 1000;
+              }else{
+                if (game.totalRows == game.currentRow + 1) {
+                  showToast(game.solution);
+                  game.currentRow = 1000;
+                } else {
+                  game.currentRow++;
+                }
+
+              }
             } else {
-              alert("Not a valid word");
+              // alert("Not a valid word");
+              showToast("Not a valid word");
             }
           }
           break;
@@ -57,15 +77,25 @@ function App() {
               (game.boardState[game.currentRow] || "") + key.key;
           }
       }
-      console.log(game);
       return { ...game };
     });
   }
 
-  console.log(game());
+  function showToast(message) {
+    setToast(message);
+    setTimeout(() => {
+      hideToast();
+    }, 2000);
+  }
+
+  function hideToast() {
+    setToast(null);
+  }
+
   return (
     <Layout game={game()} keydown={keydown}>
       <Game game={game()} wordLength={wordLength} />
+      <Toast message={toast()} />
     </Layout>
   );
 }

@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import "../assets/keyboard.scss";
 import BackspaceSvg from "../assets/images/backspace.svg";
+import { createEffect, createSignal } from "solid-js";
 
 let keysGroup = [
   [
@@ -40,11 +41,31 @@ let keysGroup = [
 ];
 
 export default function Keyboard(props) {
-  // let keysTyped = props.game.boardState.reduce((acc,word) => {
-  //   // word.split("")
-  //   return acc;
-  // },{})
-  
+  let [keysTyped, setKeysTyped] = createSignal({});
+  createEffect(() => {
+    setKeysTyped(
+      props.game.boardState
+        .slice(0, props.game.currentRow)
+        .reduce((acc, word) => {
+          let letters = word.split("");
+          letters.forEach((letter, index) => {
+            if (props.game.solution.includes(letter)) {
+              if (props.game.solution[index] === letter) {
+                acc[letter] = "CORRECT";
+              } else if (acc[letter] != "CORRECT") {
+                acc[letter] = "PRESENT";
+              }
+            } else if(acc[letter] != "CORRECT" && acc[letter] != "PRESENT") {
+              acc[letter] = "ABSENT";
+            }
+          });
+          return acc;
+        }, {})
+    );
+  });
+
+  console.log("keysTyped", keysTyped());
+
   return (
     <div className="keyboard-container p-2">
       <div className="keyboard">
@@ -57,18 +78,24 @@ export default function Keyboard(props) {
               })}
             >
               {group.map((key, index) => {
+                let keyState = keysTyped()[key.key];
+                console.log("keyState", keyState);
                 return (
                   <button
                     className={clsx({
                       ["button  is-dark is-small key"]: true,
-                      ["green"]: Boolean(index % 2),
-                      ["disabled"]: index % 3,
-                      ["yellow"]: index % 4,
+                      ["green"]: keyState == "CORRECT",
+                      ["disabled"]: keyState == "ABSENT",
+                      ["yellow"]: keyState == "PRESENT",
                       ["special-key"]: key.type === "SPECIALKEY",
                     })}
                     onClick={() => props.keydown(key)}
                   >
-                    {key.icon ? <img src={key.icon} className="icon" />: key.key}
+                    {key.icon ? (
+                      <img src={key.icon} className="icon" />
+                    ) : (
+                      key.key
+                    )}
                   </button>
                 );
               })}
