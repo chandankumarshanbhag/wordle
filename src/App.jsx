@@ -1,8 +1,10 @@
-import { createSignal } from "solid-js";
+import { createSignal, onMount } from "solid-js";
 import Game from "./components/game";
 import Toast from "./components/toast";
 import Layout from "./layout";
 import dictonary from "./words.json";
+import keysGroup from "./keys_group";
+import { pickTodaysWord } from "./utils";
 
 let totalRows = 6;
 let wordLength = 5;
@@ -15,8 +17,7 @@ function App() {
       wordLength,
       boardState: Array(totalRows).fill(""),
       evaluations: Array(wordLength).fill([]),
-      solution:
-        dictonary[Math.floor(Math.random() * dictonary.length)].toUpperCase(),
+      solution: pickTodaysWord(),
     },
     { equals: false }
   );
@@ -27,9 +28,8 @@ function App() {
   }
 
   function keydown(key) {
+    
     setGame((game) => {
-      console.log(game)
-      
       switch (key.type) {
         case "SPECIALKEY":
           if (key.key === "BACKSPACE") {
@@ -56,14 +56,13 @@ function App() {
               if (game.solution == game.boardState[game.currentRow]) {
                 showToast("Correct!");
                 game.currentRow == 1000;
-              }else{
+              } else {
                 if (game.totalRows == game.currentRow + 1) {
                   showToast(game.solution);
                   game.currentRow = 1000;
                 } else {
                   game.currentRow++;
                 }
-
               }
             } else {
               // alert("Not a valid word");
@@ -77,9 +76,28 @@ function App() {
               (game.boardState[game.currentRow] || "") + key.key;
           }
       }
+      console.log(game)
       return { ...game };
     });
   }
+
+  function onDocumentKeyDown(e) {
+    if(e.ctrlKey || e.altKey || e.shiftKey) return;
+    let key = e.key.toUpperCase();
+    let isAValidKey = Boolean(
+      keysGroup.find((group) => group.find((groupKey) => groupKey.key == key))
+    );
+    if (isAValidKey) {
+      keydown({
+        key: key,
+        type: key == "BACKSPACE" || key == "ENTER" ? "SPECIALKEY" : "KEY",
+      });
+    }
+  }
+
+  onMount(() => {
+    document.addEventListener("keydown", onDocumentKeyDown);
+  });
 
   function showToast(message) {
     setToast(message);
